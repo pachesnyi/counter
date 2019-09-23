@@ -6,11 +6,27 @@
     function MyCounter (element) {
         var defaultValue = 0;
         var defaultDuration = 10000;
+        this._renderedValue = 0;
         this._element = element;
         this._value = defaultValue;
         this._duration = defaultDuration;
-        this._renderedValue = this._value;
-        this._render();
+
+
+
+        if(element.hasAttribute("data-duration")) {
+            this.setDuration(element.getAttribute('data-duration'));
+        } else {
+            this.setDuration(defaultDuration);
+        }
+
+
+        if(element.hasAttribute("data-to")) {
+            this.setValue(element.getAttribute('data-to'));
+        } else {
+            this.setValue(0);
+        }
+
+
     }
 
     MyCounter.prototype.setValue = function(value) {
@@ -18,7 +34,8 @@
         var tickCount = this._duration / tick;
         var step = (value - this._value) / tickCount;
         var  self = this;
-        this._value = value;
+        this._value = parseInt(value, 10);
+
 
         function tickFunction() {
             self._renderedValue += step;
@@ -33,12 +50,21 @@
     };
 
     MyCounter.prototype.setDuration = function (duration) {
-        this._duration = duration;
+        this._duration = parseInt(duration, 10);
     };
 
     MyCounter.prototype._render = function() {
         this._element.innerHTML = this._renderedValue.toFixed(0);
     };
+
+    if(!window.MyCounter) {
+        window.MyCounter = MyCounter;
+    }
+
+
+    if(!window.CounterInstances) {
+        window.CounterInstances = counters;
+    }
 
     document.addEventListener( 'DOMContentLoaded', function () {
         document.querySelectorAll('.counter').forEach((counter)=> {

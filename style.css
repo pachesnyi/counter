@@ -1,0 +1,21 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+}
+
+.counter {
+  font-size: 150px;
+  font-weight: 700;
+}
+
+.counter-purple {
+  color: purple;
+}
+
+.counter + .counter {
+  margin-left: 50px;
+}
